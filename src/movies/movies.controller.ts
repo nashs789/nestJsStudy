@@ -1,15 +1,21 @@
-import { Controller, Delete, Get, Param, Post, Put, Patch, Body, Query, Req, Res } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Post, Put, Patch, Body, Query, Req, Res, Logger, Inject, LoggerService } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { Movie } from './entities/movie.entity';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
+import { Logger as WinstonLogger } from 'winston'
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston'
 
 // controller entry point
 @Controller('movies')
 export class MoviesController {
 
+    //private looger = new Logger('BoardController');
+
     constructor(
-        private readonly movieService: MoviesService
+        private readonly movieService: MoviesService,
+        // @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: WinstonLogger,
+        @Inject(Logger) private readonly logger: LoggerService
     ) {}
     
     @Get()
@@ -28,6 +34,7 @@ export class MoviesController {
 
     @Post()
     createMovie(@Body() movieData: CreateMovieDto){
+        this.logger.error('error: ', movieData);
         return this.movieService.createMovie(movieData);
         //return movieData;
         //return `this will create a movie.`;
