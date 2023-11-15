@@ -34,7 +34,7 @@ export class MoviesController {
 
     @Post()
     createMovie(@Body() movieData: CreateMovieDto){
-        this.logger.error('error: ', movieData);
+        this.logger.log(`log = ${JSON.stringify(movieData)}`);
         return this.movieService.createMovie(movieData);
         //return movieData;
         //return `this will create a movie.`;

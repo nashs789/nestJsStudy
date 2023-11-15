@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MoviesModule } from './movies/movies.module';
 import { AppController } from './app.controller';
@@ -8,11 +8,13 @@ import {
     utilities as nestWinstonModuleUtilities,
     WinstonModule
 } from 'nest-winston';
+import { consumers } from 'stream';
+import { DoWithMiddlewareMiddleware } from './do-with-middleware/do-with-middleware.middleware';
+import { DoWithMiddlewareModule } from './do-with-middleware/do-with-middleware.module';
 
 @Module({
     imports: [
-        DoWithLoggerModule
-      , MoviesModule
+        MoviesModule
       , ConfigModule.forRoot({
         isGlobal: true,
         envFilePath: `.${process.env.NODE_ENV}.env`
@@ -30,9 +32,15 @@ import {
                   ),
               }),
           ],
-      })
+      }), DoWithMiddlewareModule
     ],
     controllers: [AppController],
     providers: [],
 })
-export class AppModule {}
+
+export class AppModule implements NestModule{
+    configure(consumer: MiddlewareConsumer): any {
+        consumer.apply(DoWithMiddlewareMiddleware)
+                .forRoutes('');
+    }
+}

@@ -8,6 +8,7 @@ import {
     utilities as nestWinstonModuleUtilities,
     WinstonModule
 } from 'nest-winston';
+import { DoWithMiddlewareMiddleware } from './do-with-middleware/do-with-middleware.middleware';
 
 /**
  * winston log level
@@ -42,6 +43,7 @@ async function bootstrap() {
           // : ['error', 'warn', 'log', 'verbose', 'debug']
         }
     );
+    //app.use(DoWithMiddlewareMiddleware);
     //app.useLogger(app.get(DoWithLogger));
     //app.useLogger(app.get(WINSTON_MODULE_PROVIDER));
     // Global Level의 Pipe 설정 (Built in Pipe)
@@ -52,16 +54,13 @@ async function bootstrap() {
     // ParseUUIDPipe
     // DefaultValuePipe
     app.useGlobalPipes(new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      transform: true
+        whitelist: true,
+        forbidNonWhitelisted: true,
+        transform: true
     }));
     const port = process.env.PORT;
     
     await app.listen(port);
-    Logger.error(`Application running on port ${port}`);
-    Logger.warn(`Application running on port ${port}`);
-    Logger.verbose(`Application running on port ${port}`);
-    Logger.debug(`Application running on port ${port}`);
+    Logger.log(`Application running on port ${port}`);
 }
 bootstrap();

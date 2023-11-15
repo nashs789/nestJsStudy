@@ -9,7 +9,7 @@ export class DoWithLogger extends ConsoleLogger {
         this.doSomething();
     }
 
-    privatedebug(message: any, context?: string): void{
+    debug(message: any, context?: string): void{
         super.debug.apply(this, arguments);
         console.log(`debug method is called in Custom Logger`);
     }
