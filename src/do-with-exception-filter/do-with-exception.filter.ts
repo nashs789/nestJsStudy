@@ -1,4 +1,4 @@
-import { ExceptionFilter, Catch, ArgumentsHost, HttpException, Logger, HttpStatus } from '@nestjs/common';
+import { ExceptionFilter, Catch, ArgumentsHost, HttpException, Logger } from '@nestjs/common';
 import { Request, Response } from 'express';
 
 @Catch()
@@ -11,8 +11,9 @@ export class DoWithExceptionFilter<T> implements ExceptionFilter {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
         const request = ctx.getRequest<Request>();
-        const status = exception.getStatus();
+        let status = exception.getStatus();
 
+        // 요구 사항에 따라서 밑에 코드 변경 예정
         if(exception.name === 'DoWithException'){
             this.logger.debug("DoWithException");
         } else {

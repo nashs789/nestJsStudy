@@ -8,16 +8,16 @@ export class DoWithMiddlewareMiddleware implements NestMiddleware {
         const logAgent     = `agent    : ${req.headers['user-agent']}`;
         const logClientIp  = `client Ip: ${req.ip}`;
         const logProxyIps  = `proxy Ips: ${req.ips}`;
-        const {password, ...paramsWithoutPassword} = req.body;
+        const body = {...req.body};
 
-        const keys = Object.keys(paramsWithoutPassword);
+        const keys = Object.keys(body);
         var params = "";
 
         if(keys.length !== 0){
             params = "=============== [ Parameters ] ===============\n";
 
             keys.forEach((key) => {
-                const value = paramsWithoutPassword[key];
+                const value = body[key];
                 params += `${key} = ${value}\n`;
             });
         }

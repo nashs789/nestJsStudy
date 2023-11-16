@@ -21,7 +21,7 @@ import { DoWithExceptionModule } from './do-with-exception/do-with-exception.mod
       , DoWithExceptionFilterModule
       , ConfigModule.forRoot({
         isGlobal: true,
-        envFilePath: `.${process.env.NODE_ENV}.env`
+        envFilePath: `./env/.${process.env.NODE_ENV}.env`
       })
       , WinstonModule.forRoot({
           transports: [
