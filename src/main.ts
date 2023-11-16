@@ -9,6 +9,7 @@ import {
     WinstonModule
 } from 'nest-winston';
 import { DoWithMiddlewareMiddleware } from './do-with-middleware/do-with-middleware.middleware';
+import { DoWithExceptionFilter } from './do-with-exception-filter/do-with-exception.filter';
 
 /**
  * winston log level
@@ -38,11 +39,9 @@ async function bootstrap() {
                     }),
                 ],
             }),
-          //   logger: process.env.NODE_ENV === 'prod'
-          // ? ['error', 'warn', 'log']
-          // : ['error', 'warn', 'log', 'verbose', 'debug']
         }
     );
+    app.useGlobalFilters(new DoWithExceptionFilter(new Logger()));
     //app.use(DoWithMiddlewareMiddleware);
     //app.useLogger(app.get(DoWithLogger));
     //app.useLogger(app.get(WINSTON_MODULE_PROVIDER));

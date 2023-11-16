@@ -11,10 +11,14 @@ import {
 import { consumers } from 'stream';
 import { DoWithMiddlewareMiddleware } from './do-with-middleware/do-with-middleware.middleware';
 import { DoWithMiddlewareModule } from './do-with-middleware/do-with-middleware.module';
+import { DoWithExceptionFilterModule } from './do-with-exception-filter/do-with-exception-filter.module';
+import { DoWithExceptionModule } from './do-with-exception/do-with-exception.module';
 
 @Module({
     imports: [
         MoviesModule
+      , DoWithMiddlewareModule
+      , DoWithExceptionFilterModule
       , ConfigModule.forRoot({
         isGlobal: true,
         envFilePath: `.${process.env.NODE_ENV}.env`
@@ -32,7 +36,7 @@ import { DoWithMiddlewareModule } from './do-with-middleware/do-with-middleware.
                   ),
               }),
           ],
-      }), DoWithMiddlewareModule
+      })
     ],
     controllers: [AppController],
     providers: [],
